@@ -1,0 +1,104 @@
+<link rel="import" href="../polymer/polymer-element.html">
+
+<link rel="import" href="../paper-button/paper-button.html">
+<link rel="import" href="../paper-input/paper-input.html">
+<link rel="import" href="../paper-card/paper-card.html">
+<link rel="import" href="../paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../paper-item/paper-item.html">
+<link rel="import" href="../paper-listbox/paper-listbox.html">
+
+
+<dom-module id="todo-list">
+    <template>
+    <style>
+      :host {
+        display: block;
+      }
+
+
+      paper-card {
+        --paper-card: {
+          display: flex;
+          /* justify-content: space-between; */
+          background: greenyellow;
+          border-top-left-radius: 1rem;
+          border-top-right-radius: 1rem;
+        }
+      }
+
+      paper-listbox {
+        --paper-listbox: {
+          background: #E4E9E5;
+          justify-content: space-between;
+          border-bottom-left-radius: 1rem;
+          border-bottom-right-radius: 1rem;
+        }
+      }
+
+      p {
+        width: 90%;
+      }
+    
+    </style>
+
+<!-- Crear  lista de tasks -->
+<div>
+
+  <div>
+    <paper-card>
+      <p>ToDo List by Ironbit</p>
+      <paper-icon-button src="./images/recycle-bin.svg" on-click="deleteAll"></paper-icon-button>
+    </paper-card>
+  </div>
+
+  <div>
+    <paper-listbox>
+      <template is="dom-repeat" items="{{tasks}}">
+        <paper-item>
+          <p>{{ item.tasks }}</p>
+          <paper-icon-button src="./images/remove.svg" on-click="deleteTask"></paper-icon-button>                    
+        </paper-item>  
+      </template>
+    </paper-listbox>
+    </div>
+
+    </div>
+
+
+
+    </template>
+
+    <script>
+        /**
+         * `todo-list`
+         * componente para renderizar tareas
+         *
+         * @customElement
+         * @polymer
+         * @demo demo/index.html
+         */
+        class TodoList extends Polymer.Element {
+            static get is() {
+                return 'todo-list';
+            }
+            static get properties() {
+                return {
+                    tasks: {
+                        type: Array,
+                        value() {
+                            return [{
+                                tarea_1: 'tarea 1'
+                            }, {
+                                tarea_2: 'tarea 2'
+                            }, {
+                                tarea_3: 'tarea 3'
+                            }, ];
+                        }
+                    }
+                }
+            }
+        }
+
+        window.customElements.define(TodoList.is, TodoList);
+    </script>
+</dom-module>
