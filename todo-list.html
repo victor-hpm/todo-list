@@ -55,7 +55,7 @@
     <paper-listbox>
       <template is="dom-repeat" items="{{tasks}}">
         <paper-item>
-          <p>{{ item.tasks }}</p>
+          <p>{{ item.taskName }}</p>
           <paper-icon-button src="./images/remove.svg" on-click="deleteTask"></paper-icon-button>                    
         </paper-item>  
       </template>
@@ -85,16 +85,35 @@
                 return {
                     tasks: {
                         type: Array,
-                        value() {
-                            return [{
-                                tarea_1: 'tarea 1'
-                            }, {
-                                tarea_2: 'tarea 2'
-                            }, {
-                                tarea_3: 'tarea 3'
-                            }, ];
-                        }
+                        value: ''
+                            // value() {
+                            //     return [{
+                            //         tarea_1: 'tarea 1'
+                            //     }, {
+                            //         tarea_2: 'tarea 2'
+                            //     }, {
+                            //         tarea_3: 'tarea 3'
+                            //     }, ];
+                            // }
                     }
+                }
+            }
+            deleteTask(e) {
+                let taskName = e.model.item.taskName;
+                localStorage.removeItem(taskName);
+                // actualizo lista de tareas
+                this.updateTasks();
+            }
+            updateTasks() {
+                // vacia el array
+                this.splice('tasks', 0);
+                // agregamos al localStorage
+                for (let taskName in localStorage) {
+                    let task = {
+                        taskName: taskName,
+                        isComplete: localStorage.getItem(taskName) == 'yes'
+                    };
+                    this.push('tasks', task);
                 }
             }
         }
