@@ -52,14 +52,10 @@
   </div>
 
   <div>
-    <paper-listbox>
-      <template is="dom-repeat" items="{{tasks}}">
-        <paper-item>
-          <p>{{ item.taskName }}</p>
+      <template id="repeat" is="dom-repeat" items="[[tasks]]">
+          <p>{{ item.tarea }}</p>
           <paper-icon-button src="./images/remove.svg" on-click="deleteTask"></paper-icon-button>                    
-        </paper-item>  
       </template>
-    </paper-listbox>
     </div>
 
     </div>
@@ -85,37 +81,47 @@
                 return {
                     tasks: {
                         type: Array,
-                        value: ''
-                            // value() {
-                            //     return [{
-                            //         tarea_1: 'tarea 1'
-                            //     }, {
-                            //         tarea_2: 'tarea 2'
-                            //     }, {
-                            //         tarea_3: 'tarea 3'
-                            //     }, ];
-                            // }
+                        value: [{
+                            tarea: 1
+                        }],
+                        observer: 'list'
                     }
                 }
             }
-            deleteTask(e) {
-                let taskName = e.model.item.taskName;
-                localStorage.removeItem(taskName);
-                // actualizo lista de tareas
-                this.updateTasks();
+
+            list() {
+                console.log('list', this.tasks);
+                this.$.repeat.render();
             }
-            updateTasks() {
-                // vacia el array
-                this.splice('tasks', 0);
-                // agregamos al localStorage
-                for (let taskName in localStorage) {
-                    let task = {
-                        taskName: taskName,
-                        isComplete: localStorage.getItem(taskName) == 'yes'
-                    };
-                    this.push('tasks', task);
+
+            // método para borrar los tasks en el array
+            deleteTask() {
+                    // recorriendo el tasks
+                    for (let i = 0; i <= this.tasks.length; i++) {
+                        // si el item es igual a la posicion
+                        if (item === this.tasks[i]) {
+                            this.tasks.splice(i, 1);
+                        }
+                    }
                 }
-            }
+                // deleteTask(e) {
+                //     let taskName = e.model.item.taskName;
+                //     localStorage.removeItem(taskName);
+                //     // actualizo lista de tareas
+                //     this.updateTasks();
+                // }
+                // updateTasks() {
+                //     // vacia el array
+                //     this.splice('tasks', 0);
+                //     // agregamos al localStorage
+                //     for (let taskName in localStorage) {
+                //         let task = {
+                //             taskName: taskName,
+                //             isComplete: localStorage.getItem(taskName) == 'yes'
+                //         };
+                //         this.push('tasks', task);
+                //     }
+                // }
         }
 
         window.customElements.define(TodoList.is, TodoList);
